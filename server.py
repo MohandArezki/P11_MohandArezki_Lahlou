@@ -54,6 +54,8 @@ def purchasePlaces():
     try:
         check_competition_validity(competition, placesRequired)
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+        # Update available points    
+        club['points'] = int(club['points']) - placesRequired
         flash('Great-booking complete!')
         httpResult = HTTPStatus.OK
     except BookingError as error:
