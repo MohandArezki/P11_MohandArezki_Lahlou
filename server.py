@@ -1,6 +1,7 @@
+from http import HTTPStatus
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
-
+from utils import EmailError, search_club_by_email
 
 def loadClubs():
     with open('clubs.json') as c:
@@ -26,8 +27,12 @@ def index():
 
 @app.route('/showSummary',methods=['POST'])
 def showSummary():
-    club = [club for club in clubs if club['email'] == request.form['email']][0]
-    return render_template('welcome.html',club=club,competitions=competitions)
+    try:
+        club = search_club_by_email(request.form['email'],clubs)
+        return render_template('welcome.html',club=club,competitions=competitions)
+    except EmailError as e:
+        flash(e.message)
+        return render_template("index.html"), HTTPStatus.BAD_REQUEST
 
 
 @app.route('/book/<competition>/<club>')
