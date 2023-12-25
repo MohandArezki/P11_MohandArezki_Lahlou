@@ -3,6 +3,9 @@ from datetime import datetime
 
 MSG_EMAIL_NOT_FOUND = "Email not found. Please verify the entered email address and try again."
 MSG_COMPETITION_PASSED ="The competition ({}) is no longer available."
+MSG_BOOK_MORE_THAN_AUTORIZED = "Trying to book ({}) places. Booking more than ({}) places is not allowed."
+
+MAX_BOOKING = 12
 
 class EmailError(Exception):
     def __init__(self, message=MSG_EMAIL_NOT_FOUND):
@@ -35,14 +38,19 @@ def search_club_by_email(email, clubs):
     raise EmailError()
 
 
-def check_competition_validity(competition):
-    """Check if the competition is valid.
+def check_competition_validity(competition, placesRequired):
+    """
+    Check if the competition is valid.
 
     Args:
-        competition: A dictionary representing the competition.
+        competition (dict): A dictionary representing the competition.
+        placesRequired (int): The number of places required for booking.
 
     Returns:
-        True if the competition is valid, raises BookingError otherwise.
+        bool: True if the competition is valid.
+
+    Raises:
+        BookingError: If the competition has passed or the booking exceeds the authorized limit.
     """
     # Prevent booking on passed competition
     if datetime.fromisoformat(competition["date"]) < datetime.now():
@@ -50,4 +58,11 @@ def check_competition_validity(competition):
             MSG_COMPETITION_PASSED.format(competition['name'])
         )
 
+    # Prevent booking more than 12 places
+    if placesRequired > MAX_BOOKING:
+        raise BookingError(
+            MSG_BOOK_MORE_THAN_AUTORIZED.format(placesRequired, MAX_BOOKING)
+        )
+
     return True
+
