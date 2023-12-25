@@ -5,6 +5,7 @@ MSG_EMAIL_NOT_FOUND = "Email not found. Please verify the entered email address 
 MSG_COMPETITION_PASSED ="The competition ({}) is no longer available."
 MSG_BOOK_MORE_THAN_AUTORIZED = "Trying to book ({}) places. Booking more than ({}) places is not allowed."
 MSG_BOOK_MORE_AVAILABLE_PLACES = "Trying to book ({}) places. Available, only ({}) places."
+MSG_BOOK_MORE_AVAILABLE_POINTS = "Trying to book ({}) places. Not enough available points, only ({})."
 
 MAX_BOOKING = 12
 
@@ -73,7 +74,9 @@ def check_booking_validity(competition, placesRequired, club):
     
     # Prevent booking more places than available points
     if placesRequired > int(club['points']):
-        raise BookingError(f"Trying to book ({placesRequired}) places. Not enough available points, only ({club['points']}).")
+        raise BookingError(
+            MSG_BOOK_MORE_AVAILABLE_POINTS.format(placesRequired, club['points'])
+        )
       
     return True
 
