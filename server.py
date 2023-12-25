@@ -1,7 +1,7 @@
 from http import HTTPStatus
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
-from utils import EmailError,BookingError, search_club_by_email, check_competition_validity
+from utils import EmailError,BookingError, search_club_by_email, check_booking_validity
 
 def loadClubs():
     with open('clubs.json') as c:
@@ -52,7 +52,7 @@ def purchasePlaces():
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])    
     try:
-        check_competition_validity(competition, placesRequired)
+        check_booking_validity(competition, placesRequired, club)
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
         # Update available points    
         club['points'] = int(club['points']) - placesRequired
