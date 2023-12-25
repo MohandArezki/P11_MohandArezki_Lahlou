@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title> Clubs | GUDLFT Registration</title>
+   </head>
+   <body>
+      <style>
+         td {
+         border: 1px solid black;
+         padding: 8px;
+         }
+      </style>
+      <h2>Available points</h2>
+      <table>
+         <thead>
+            <tr>
+               <th>#</th>
+               <th>Club's name</th>
+               <th>Available points</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for club in clubs %}
+            <tr>
+               <td>{{ loop.index }}</td>
+               <td>{{ club['name'] }}</td>
+               <td style="text-align:center;">{{ club['points'] }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      </br>
+      <a href="javascript:history.back()">Back</a>    
+   </body>
+</html>
