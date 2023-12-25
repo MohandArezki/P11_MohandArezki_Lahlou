@@ -39,7 +39,7 @@ def search_club_by_email(email, clubs):
     raise EmailError()
 
 
-def check_competition_validity(competition, placesRequired):
+def check_booking_validity(competition, placesRequired, club):
     """
     Check if the competition is valid.
 
@@ -64,10 +64,16 @@ def check_competition_validity(competition, placesRequired):
         raise BookingError(
             MSG_BOOK_MORE_THAN_AUTORIZED.format(placesRequired, MAX_BOOKING)
         )
+    
     # Prevent booking more than available places
     if placesRequired > int(competition['numberOfPlaces']):
         raise BookingError(
             MSG_BOOK_MORE_AVAILABLE_PLACES.format(placesRequired, competition['numberOfPlaces'])
         )
+    
+    # Prevent booking more places than available points
+    if placesRequired > int(club['points']):
+        raise BookingError(f"Trying to book ({placesRequired}) places. Not enough available points, only ({club['points']}).")
+      
     return True
 
