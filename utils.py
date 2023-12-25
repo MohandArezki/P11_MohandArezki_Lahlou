@@ -4,6 +4,7 @@ from datetime import datetime
 MSG_EMAIL_NOT_FOUND = "Email not found. Please verify the entered email address and try again."
 MSG_COMPETITION_PASSED ="The competition ({}) is no longer available."
 MSG_BOOK_MORE_THAN_AUTORIZED = "Trying to book ({}) places. Booking more than ({}) places is not allowed."
+MSG_BOOK_MORE_AVAILABLE_PLACES = "Trying to book ({}) places. Available, only ({}) places."
 
 MAX_BOOKING = 12
 
@@ -63,6 +64,10 @@ def check_competition_validity(competition, placesRequired):
         raise BookingError(
             MSG_BOOK_MORE_THAN_AUTORIZED.format(placesRequired, MAX_BOOKING)
         )
-
+    # Prevent booking more than available places
+    if placesRequired > int(competition['numberOfPlaces']):
+        raise BookingError(
+            MSG_BOOK_MORE_AVAILABLE_PLACES.format(placesRequired, competition['numberOfPlaces'])
+        )
     return True
 
