@@ -35,6 +35,9 @@ CLUB_10_POINTS, CLUB_20_POINTS = [club["name"] for club in mock_clubs]
 
 @pytest.fixture
 def client():
+    """
+    Fixture for creating a test client.
+    """
     server.app.config["TESTING"] = True
     with server.app.test_client() as client:
         yield client
@@ -42,5 +45,8 @@ def client():
 
 @pytest.fixture
 def mock_data(mocker):
+    """
+    Fixture for providing mock data.
+    """
     mocker.patch.object(server, "clubs", mock_clubs)
     mocker.patch.object(server, "competitions", mock_competitions)
