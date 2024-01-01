@@ -101,3 +101,4 @@ Les captures d'écran des derniers rapports de tests sont disponibles dans le do
 - [Rapport de performances Locust](reports/report_1703703479.7864704.html) (6 utilisateurs, 1 par seconde)
 
 ---
+<h3 align="center"><img src="valide.png"></h3>
